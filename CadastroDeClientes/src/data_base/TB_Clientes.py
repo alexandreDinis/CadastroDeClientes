@@ -18,9 +18,9 @@ CREATE TABLE IF NOT EXISTS Clientes (
     cidade TEXT NOT NULL,
     phone TEXT,
     setor TEXT,
-    relevancia TEXT,
-    status TEXT,
-    data DATE NOT NULL
+    relevancia TEXT NOT NULL,
+    status TEXT NOT NULL,
+    data TEXT NOT NULL
 );
 '''
 

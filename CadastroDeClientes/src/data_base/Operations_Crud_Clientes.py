@@ -1,19 +1,23 @@
 import sqlite3
 
-from Connect_DB import Connect_DB
+from src.data_base.Connect_DB import Connect_DB
 
 
 class Operations_Crud_Clientes:
+
     def __init__(self):
-        path = r'PycharmProjects/CadastroDeClientes/src/data_base/cadastro_clientes.db'
+        path = r'cadastro_clientes.db'
         self.receiver = Connect_DB(path)
 
     def insert_db(self, nome, contato, rua, bairro, cidade, phone, setor, relevancia, status, data):
         try:
             connection = self.receiver.connect()
             cursor = connection.cursor()
-            cursor.execute(f'INSERT INTO cadastro_clientes.db VALUES(NULL, ?, ?, ?, ?)', (nome, contato, rua, bairro, cidade,
-                                                                                 phone, setor, relevancia, status, data))
+            cursor.execute(f'INSERT INTO Clientes VALUES(NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', (nome, contato, rua,
+                                                                                                   bairro, cidade,
+                                                                                                   phone, setor,
+                                                                                                   relevancia, status,
+                                                                                                   data))
             connection.commit()
             print('\nInsert successfully\n')
         except sqlite3.Error as e:
@@ -27,7 +31,7 @@ class Operations_Crud_Clientes:
             cursor = connection.cursor()
 
             if opc != '-1':
-                cursor.execute(f'SELECT * FROM cadastro_clientes.db WHERE {column} = ?', (search,))
+                cursor.execute(f'SELECT * FROM Clientes WHERE {column} = ?', (search,))
                 result = cursor.fetchall()
                 if result:
                     print("\nContacts found:")
@@ -59,8 +63,16 @@ class Operations_Crud_Clientes:
                 if result:
                     print("\nContacts found:")
                     print("{:<5} {:<20} {:<30} {:<15} {:<15}{:<15} {:<15}{:<15} {:<15}{:<15}{:<15}".format("ID",
-                                                                    "nome", "contato", "rua", "bairro", "cidade",
-                                                                    "phone", "setor", "relevancia", "status", "data"))
+                                                                                                           "nome",
+                                                                                                           "contato",
+                                                                                                           "rua",
+                                                                                                           "bairro",
+                                                                                                           "cidade",
+                                                                                                           "phone",
+                                                                                                           "setor",
+                                                                                                           "relevancia",
+                                                                                                           "status",
+                                                                                                           "data"))
                     print("-" * 80)
                     for results in result:
                         print("{:<5} {:<20} {:<30} {:<15} {:<15}{:<15} {:<15}{:<15} {:<15}{:<15}{:<15}".format(
@@ -82,7 +94,7 @@ class Operations_Crud_Clientes:
             set_values = ""
             values = []
 
-            validation = self.search_db(-1, 'id', id,)
+            validation = self.search_db(-1, 'id', id, )
 
             if validation != -1:
 
@@ -90,7 +102,7 @@ class Operations_Crud_Clientes:
                     set_values += "nome=?, "
                     values.append(nome)
                 else:
-                    cursor.execute(f'SELECT nome FROM cadastro_clientes.db WHERE id = ?', (id,))
+                    cursor.execute(f'SELECT nome FROM Clientes WHERE id = ?', (id,))
                     set_values += "nome=?, "
                     nome = cursor.fetchone()[0]
                     values.append(nome)
@@ -99,7 +111,7 @@ class Operations_Crud_Clientes:
                     set_values += "contato = ?, "
                     values.append(contato)
                 else:
-                    cursor.execute(f'SELECT contato FROM cadastro_clientes.db WHERE N_ID = ?', (id,))
+                    cursor.execute(f'SELECT contato FROM Clientes WHERE id = ?', (id,))
                     set_values += "contato = ?, "
                     contato = cursor.fetchone()[0]
                     values.append(contato)
@@ -108,7 +120,7 @@ class Operations_Crud_Clientes:
                     set_values += "rua = ?, "
                     values.append(rua)
                 else:
-                    cursor.execute(f'SELECT rua FROM cadastro_clientes.dbs WHERE id = ?', (id,))
+                    cursor.execute(f'SELECT rua FROM Clientes WHERE id = ?', (id,))
                     set_values += "rua = ?, "
                     rua = cursor.fetchone()[0]
                     values.append(rua)
@@ -117,7 +129,7 @@ class Operations_Crud_Clientes:
                     set_values += "cidade = ?, "
                     values.append(rua)
                 else:
-                    cursor.execute(f'SELECT cidade FROM cadastro_clientes.db WHERE id = ?', (id,))
+                    cursor.execute(f'SELECT cidade FROM Clientes WHERE id = ?', (id,))
                     set_values += "cidade = ?, "
                     cidade = cursor.fetchone()[0]
                     values.append(cidade)
@@ -126,7 +138,7 @@ class Operations_Crud_Clientes:
                     set_values += "bairro = ?, "
                     values.append(bairro)
                 else:
-                    cursor.execute(f'SELECT bairro FROM cadastro_clientes.db WHERE id = ?', (id,))
+                    cursor.execute(f'SELECT bairro FROM Clientes WHERE id = ?', (id,))
                     set_values += "bairro = ?, "
                     bairro = cursor.fetchone()[0]
                     values.append(bairro)
@@ -135,7 +147,7 @@ class Operations_Crud_Clientes:
                     set_values += "phone = ?, "
                     values.append(phone)
                 else:
-                    cursor.execute(f'SELECT phone FROM cadastro_clientes.db WHERE id = ?', (id,))
+                    cursor.execute(f'SELECT phone FROM Clientes WHERE id = ?', (id,))
                     set_values += "phone = ?, "
                     phone = cursor.fetchone()[0]
                     values.append(phone)
@@ -144,7 +156,7 @@ class Operations_Crud_Clientes:
                     set_values += "setor = ?, "
                     values.append(setor)
                 else:
-                    cursor.execute(f'SELECT setor FROM cadastro_clientes.db WHERE id = ?', (id,))
+                    cursor.execute(f'SELECT setor FROM Clientes WHERE id = ?', (id,))
                     set_values += "setor = ?, "
                     setor = cursor.fetchone()[0]
                     values.append(setor)
@@ -153,7 +165,7 @@ class Operations_Crud_Clientes:
                     set_values += "relevancia = ?, "
                     values.append(relevancia)
                 else:
-                    cursor.execute(f'SELECT relevancia FROM cadastro_clientes.db WHERE id = ?', (id,))
+                    cursor.execute(f'SELECT relevancia FROM Clientes WHERE id = ?', (id,))
                     set_values += "relevancia = ?, "
                     relevancia = cursor.fetchone()[0]
                     values.append(relevancia)
@@ -162,7 +174,7 @@ class Operations_Crud_Clientes:
                     set_values += "rua = ?, "
                     values.append(rua)
                 else:
-                    cursor.execute(f'SELECT rua FROM cadastro_clientes.db WHERE id = ?', (id,))
+                    cursor.execute(f'SELECT rua FROM Clientes WHERE id = ?', (id,))
                     set_values += "rua = ?, "
                     rua = cursor.fetchone()[0]
                     values.append(rua)
@@ -171,7 +183,7 @@ class Operations_Crud_Clientes:
                     set_values += "status = ?, "
                     values.append(status)
                 else:
-                    cursor.execute(f'SELECT status FROM cadastro_clientes.db WHERE id = ?', (id,))
+                    cursor.execute(f'SELECT status FROM Clientes WHERE id = ?', (id,))
                     set_values += "status = ?, "
                     status = cursor.fetchone()[0]
                     values.append(status)
@@ -179,7 +191,7 @@ class Operations_Crud_Clientes:
                 if set_values:
                     set_values = set_values.rstrip(', ')
 
-                query = f'UPDATE cadastro_clientes.db SET {set_values} WHERE id = ?'
+                query = f'UPDATE Clientes SET {set_values} WHERE id = ?'
                 values.append(id)
                 cursor.execute(query, tuple(values))
 
@@ -198,7 +210,7 @@ class Operations_Crud_Clientes:
         try:
             connection = self.receiver.connect()
             cursor = connection.cursor()
-            cursor.execute("DELETE FROM cadastro_clientes.db WHERE id = ?", (id,))
+            cursor.execute("DELETE FROM Clientes WHERE id = ?", (id,))
             connection.commit()
             print('Delete data successfully')
         except sqlite3.Error as e:

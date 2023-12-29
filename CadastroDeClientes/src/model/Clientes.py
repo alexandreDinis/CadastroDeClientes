@@ -1,8 +1,8 @@
-from datetime import datetime
+
 
 class Clientes:
 
-    def __init__(self, nome, contato, rua, bairro,  cidade, phone, setor, relevancia, status):
+    def __init__(self, nome, contato, rua, bairro,  cidade, phone, setor, relevancia, status, data):
         self.__nome = nome
         self._contato = contato
         self._rua = rua
@@ -12,7 +12,7 @@ class Clientes:
         self._setor = setor
         self._relevancia = relevancia
         self._status = status
-        self._data = datetime.now().date()
+        self._data = data
 
     def get_nome(self):
         return self.__nome
@@ -67,7 +67,7 @@ class Clientes:
 
     def set_status(self, status):
         self._status = status
-    @property
+
     def get_data(self):
         return self._data
 
