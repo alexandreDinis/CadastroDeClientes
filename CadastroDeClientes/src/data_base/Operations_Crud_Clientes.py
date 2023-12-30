@@ -6,14 +6,14 @@ from src.data_base.Connect_DB import Connect_DB
 class Operations_Crud_Clientes:
 
     def __init__(self):
-        path = r'cadastro_clientes.db'
+        path = "data_base/cadastro_clientes.db"
         self.receiver = Connect_DB(path)
 
     def insert_db(self, nome, contato, rua, bairro, cidade, phone, setor, relevancia, status, data):
         try:
             connection = self.receiver.connect()
             cursor = connection.cursor()
-            cursor.execute(f'INSERT INTO Clientes VALUES(NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', (nome, contato, rua,
+            cursor.execute(f'INSERT INTO "Clientes"  VALUES(NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', (nome, contato, rua,
                                                                                                    bairro, cidade,
                                                                                                    phone, setor,
                                                                                                    relevancia, status,
@@ -35,7 +35,7 @@ class Operations_Crud_Clientes:
                 result = cursor.fetchall()
                 if result:
                     print("\nContacts found:")
-                    print("{:<5} {:<20} {:<30} {:<15} {:<15}{:<15} {:<15}{:<15} {:<15}{:<15}{:<15}".format("ID",
+                    print("{:<3} {:<20} {:<15} {:<15} {:<15}{:<15} {:<10}{:<10} {:<15}{:<15}{:<10}".format("ID",
                                                                                                            "nome",
                                                                                                            "contato",
                                                                                                            "rua",
@@ -46,23 +46,23 @@ class Operations_Crud_Clientes:
                                                                                                            "relevancia",
                                                                                                            "status",
                                                                                                            "data"))
-                    print("-" * 80)
+                    print("-" * 160)
                     for results in result:
-                        print("{:<5} {:<20} {:<30} {:<15} {:<15}{:<15} {:<15}{:<15} {:<15}{:<15}{:<15}".format(
+                        print("{:<3} {:<20} {:<15} {:<15} {:<15}{:<15} {:<10}{:<10} {:<15}{:<15}{:<10}".format(
                             results[0], results[1], results[2], results[3],
                             results[4], results[5], results[6], results[7],
                             results[8], results[9], results[10]))
-                    print("-" * 80)
+                    print("-" * 160)
 
                 else:
                     print('Contact not found')
                     return -1
             if opc == '-1':
-                cursor.execute(f'SELECT * {column} {search}')
+                cursor.execute('SELECT * FROM Clientes')
                 result = cursor.fetchall()
                 if result:
                     print("\nContacts found:")
-                    print("{:<5} {:<20} {:<30} {:<15} {:<15}{:<15} {:<15}{:<15} {:<15}{:<15}{:<15}".format("ID",
+                    print("{:<3} {:<20} {:<15} {:<15} {:<15}{:<15} {:<10}{:<10} {:<15}{:<15}{:<10}".format("ID",
                                                                                                            "nome",
                                                                                                            "contato",
                                                                                                            "rua",
@@ -73,13 +73,14 @@ class Operations_Crud_Clientes:
                                                                                                            "relevancia",
                                                                                                            "status",
                                                                                                            "data"))
-                    print("-" * 80)
+                    print("-" * 160)
                     for results in result:
-                        print("{:<5} {:<20} {:<30} {:<15} {:<15}{:<15} {:<15}{:<15} {:<15}{:<15}{:<15}".format(
+                        print("{:<3} {:<20} {:<15} {:<15} {:<15}{:<15} {:<10}{:<10} {:<15}{:<15}{:<10}".format(
                             results[0], results[1], results[2], results[3],
                             results[4], results[5], results[6], results[7],
                             results[8], results[9], results[10]))
-                    print("-" * 80)
+                    print("-" * 160)
+                    return result
                 else:
                     print('Contact not found')
         except sqlite3.Error as e:
