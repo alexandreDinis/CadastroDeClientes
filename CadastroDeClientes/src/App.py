@@ -1,10 +1,12 @@
 from src.model.Clientes import Clientes
 from src.data_base.Operations_Crud_Clientes import Operations_Crud_Clientes
 from datetime import datetime
+from src.model import model_financeiro
 import openpyxl
 
 data_base = Operations_Crud_Clientes()
 clientes = Clientes
+fn = model_financeiro
 
 
 
@@ -84,7 +86,7 @@ def cadastrar():
         setor = str(input('Setor: ')).upper()
         relevancia  = str(input('[FORTE | FRACO | MEDIO => ')).upper().strip()
         status = str(input('[ATIVO | INATIVO] => ')).upper().strip()
-        data = str(datetime.now().date())
+        data = datetime.now().date()
         clientes(nome, contato, rua, bairro, cidade, phone, setor, relevancia, status, data)
         data_base.insert_db(nome, contato, rua, bairro, cidade, phone, setor, relevancia, status, data)
         print('=-' * 30)
@@ -210,8 +212,19 @@ if __name__ == "__main__":
                 else:
                     print('Opção Invalida')
         elif op == 2:
-            # area do financeiro
-            pass
+            while True:
+                op = fn.menu_financeiro_geral()
+                if op == 1:
+                    fn.enter_insert()
+                elif op == 2:
+                    fn.saida_insert()
+                elif op == 3:
+                    fn.menu_relatorios_financiro()
+
+                elif op == 0:
+                    break
+                else:
+                    print('Opção Invalida')
         elif op == 3:
             # logistica
             pass
