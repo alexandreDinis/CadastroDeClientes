@@ -1,0 +1,31 @@
+****** Documento Cadastri de Clientes *******
+
+Banco de dados:
+
+cadastro_clientes.db
+
+financeiro.db
+
+
+***Operation_Crud_Financeiro.py***
+
+       entrada e saida
+
+A funçao deve ter a possibilidade de:
+
+cadastrar as entradas e saidas financeira
+
+as entrada são associadas a  um Cliente 
+
+relatorios:
+
+por cliente dentro de um determinado mes
+
+total de compra de todos os clientes dentro do mes
+
+total comprado por clientes anual apresentando o total geral somando todos as entradas
+
+
+
+
+

@@ -35,7 +35,7 @@ def menu_geral():
     print('=-' * 30)
     menu = int(input(
     '''Digite a Opção Desejada :
-[1] Area do Cliente 
+[1] Clientes 
 [2] Financeiro 
 [3] Logistica  
 [0] Finalizar   
@@ -48,8 +48,9 @@ def menu_cadastrar():
     print('=-' * 30)
     menu = int(input(
     '''Digite a Opção Desejada :
-[1] Cadastrar novo cliente  
-[2] Relatorio de cliente 
+    
+[1] Cadastrar   
+[2] Relatorios 
 [3] Atualizar
 [4] Deletar   
 [0] Voltar   
@@ -61,8 +62,8 @@ def menu_search():
     print('=-' * 30)
     menu = int(input(
     '''Digite a Opção Desejada :
-[1] Pesquisa personalizada  
-[2] Pesquisa Geral 
+[1] Relatorio personalizado  
+[2] Relatorio Geral 
 [0] Voltar
  '''))
     print('=-' * 30)
@@ -159,6 +160,34 @@ def deletar():
         else:
             print('Opção invalida')
 
+def update():
+    while True:
+        print(f'{"Update de Clientes".rjust(40)}')
+        print('=-' * 30)
+        id = str(input('Digite o ID do cliente que deseja fazer o update '))
+        opc = '1'
+        column = 'id'
+        id = str(id)
+        data_base.search_db(opc, column, id)
+        print('=-' * 30)
+        print('Modifique os campos ou aparete enter\n')
+        nome = str(input('Nome Fantasia: ')).upper()
+        contato = str(input('Contato: ')).upper()
+        rua = str(input('Rua: ')).upper()
+        bairro = str(input('Bairro: ')).upper()
+        cidade = str(input('Cidade: ')).upper()
+        phone = str(input('Phone: ')).upper()
+        setor = str(input('Setor: ')).upper()
+        relevancia = str(input('[FORTE | FRACO | MEDIO => ')).upper().strip()
+        status = str(input('[ATIVO | INATIVO | PROSPRCT] => ')).upper().strip()
+        data_base.update(nome, contato, rua, bairro, cidade, phone, setor, relevancia, status, id)
+        print('=-' * 30)
+
+        op = int(input('Novo Update [1 = Sim | 0 = Nao ]'))
+
+        if op == 0:
+            break
+
 if __name__ == "__main__":
 
     while True:
@@ -173,7 +202,7 @@ if __name__ == "__main__":
                 elif op == 2:
                     search()
                 elif op == 3:
-                    pass
+                    update()
                 elif op == 4:
                     deletar()
                 elif op == 0:
@@ -181,8 +210,8 @@ if __name__ == "__main__":
                 else:
                     print('Opção Invalida')
         elif op == 2:
-              # area do financeiro
-              print('Opçao Invalida')
+            # area do financeiro
+            pass
         elif op == 3:
             # logistica
             pass

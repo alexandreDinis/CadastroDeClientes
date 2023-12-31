@@ -1,11 +1,10 @@
 import sqlite3
-
 from src.data_base.Connect_DB import Connect_DB
-
 
 class Operations_Crud_Clientes:
 
     def __init__(self):
+
         path = "data_base/cadastro_clientes.db"
         self.receiver = Connect_DB(path)
 
