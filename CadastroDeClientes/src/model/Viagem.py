@@ -2,10 +2,10 @@ from datetime import datetime
 
 class viagem:
 
-    def __init__(self,km_inicial, km_final, preço_combustivel):
+    def __init__(self, km_inicial, km_final, preco_combustivel):
         self._km_inicial = km_inicial
         self._km_final = km_final
-        self._preço_combustivel = preço_combustivel
+        self._preco_combustivel = preco_combustivel
         self._data = datetime.now().date()
 
     def get_km_inicial(self):
@@ -21,7 +21,9 @@ class viagem:
         self._km_final = novo_km_final
 
     def get_preço_combustivel(self):
-        return self._preço_combustivel
+        return self._preco_combustivel
 
-    def set_preço_combustivel(self, novo_preço_combustivel):
-        self._preço_combustivel = novo_preço_combustivel
+    def set_preco_combustivel(self, novo_preco_combustivel):
+        self._preco_combustivel = novo_preco_combustivel
+
+

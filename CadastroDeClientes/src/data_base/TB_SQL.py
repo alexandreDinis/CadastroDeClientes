@@ -71,9 +71,53 @@ def criar_tabela_entradas_saidas():
         print(f"Erro: {e}")
     finally:
         conn.close()
+
+def create_relevancia_table():
+    connection = sqlite3.connect("cadastro_clientes.db")
+    try:
+        cursor = connection.cursor()
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS relevancia (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                descricao VARCHAR(10) NOT NULL
+            );
+        """)
+
+        # Inserir registros de exemplo
+        cursor.execute("INSERT INTO relevancia (descricao) VALUES ('FORTE');")
+        cursor.execute("INSERT INTO relevancia (descricao) VALUES ('MEDIO');")
+        cursor.execute("INSERT INTO relevancia (descricao) VALUES ('FRACO');")
+
+        connection.commit()
+    finally:
+        connection.close()
+
+def create_status_table():
+    connection = sqlite3.connect("cadastro_clientes.db")
+    try:
+        cursor = connection.cursor()
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS status (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                descricao VARCHAR(10) NOT NULL
+            );
+        """)
+
+        # Inserir registros de exemplo
+        cursor.execute("INSERT INTO status (descricao) VALUES ('ATIVO');")
+        cursor.execute("INSERT INTO status (descricao) VALUES ('INATIVO');")
+        cursor.execute("INSERT INTO status (descricao) VALUES ('PROSPC');")
+
+        connection.commit()
+    finally:
+        connection.close()
+
 def gerdor_de_tableas():
 
     tb_clientes()
     criar_tabela_entradas_saidas()
+    create_relevancia_table()
+    create_status_table()
 
 
+gerdor_de_tableas()

@@ -1,5 +1,6 @@
 import sqlite3
 from src.data_base.Connect_DB import Connect_DB
+from prettytable import PrettyTable
 
 class Operations_Crud_Clientes:
 
@@ -33,61 +34,44 @@ class Operations_Crud_Clientes:
                 cursor.execute(f'SELECT * FROM Clientes WHERE {column} = ?', (search,))
                 result = cursor.fetchall()
                 if result:
-                    print("\nContacts found:")
-                    print("{:<3} {:<20} {:<15} {:<15} {:<15}{:<15} {:<10}{:<10} {:<15}{:<15}{:<10}".format("ID",
-                                                                                                           "nome",
-                                                                                                           "contato",
-                                                                                                           "rua",
-                                                                                                           "bairro",
-                                                                                                           "cidade",
-                                                                                                           "phone",
-                                                                                                           "setor",
-                                                                                                           "relevancia",
-                                                                                                           "status",
-                                                                                                           "data"))
-                    print("-" * 160)
-                    for results in result:
-                        print("{:<3} {:<20} {:<15} {:<15} {:<15}{:<15} {:<10}{:<10} {:<15}{:<15}{:<10}".format(
-                            results[0], results[1], results[2], results[3],
-                            results[4], results[5], results[6], results[7],
-                            results[8], results[9], results[10]))
-                    print("-" * 160)
+                    table = PrettyTable()
+                    table.field_names = ["ID", "Nome", "Contato", "Rua", "Bairro", "Cidade", "Phone", "Setor",
+                                         "Relevância", "Status", "Data"]
 
+                    for row in result:
+                        table.add_row(row)
+
+                    print("\nContacts found:")
+                    print(table)
+                    print("-" * 160)
                 else:
                     print('Contact not found')
                     return -1
+
             if opc == '-1':
                 cursor.execute('SELECT * FROM Clientes')
                 result = cursor.fetchall()
                 if result:
+                    table = PrettyTable()
+                    table.field_names = ["ID", "Nome", "Contato", "Rua", "Bairro", "Cidade", "Phone", "Setor",
+                                         "Relevância", "Status", "Data"]
+
+                    for row in result:
+                        table.add_row(row)
+
                     print("\nContacts found:")
-                    print("{:<3} {:<20} {:<15} {:<15} {:<15}{:<15} {:<10}{:<10} {:<15}{:<15}{:<10}".format("ID",
-                                                                                                           "nome",
-                                                                                                           "contato",
-                                                                                                           "rua",
-                                                                                                           "bairro",
-                                                                                                           "cidade",
-                                                                                                           "phone",
-                                                                                                           "setor",
-                                                                                                           "relevancia",
-                                                                                                           "status",
-                                                                                                           "data"))
-                    print("-" * 160)
-                    for results in result:
-                        print("{:<3} {:<20} {:<15} {:<15} {:<15}{:<15} {:<10}{:<10} {:<15}{:<15}{:<10}".format(
-                            results[0], results[1], results[2], results[3],
-                            results[4], results[5], results[6], results[7],
-                            results[8], results[9], results[10]))
+                    print(table)
                     print("-" * 160)
                     return result
                 else:
                     print('Contact not found')
+
         except sqlite3.Error as e:
             print('Error in search', e)
         finally:
             self.receiver.close_connection()
 
-    def update(self, nome, contato, rua, bairro, cidade, phone, setor, relevancia, status, id, ):
+    def update(self, nome, contato, rua, bairro, cidade, phone, setor, relevancia, status, id):
         try:
             connection = self.receiver.connect()
             cursor = connection.cursor()
@@ -217,3 +201,29 @@ class Operations_Crud_Clientes:
             print(f'Error Delete ', {e})
         finally:
             self.receiver.close_connection()
+
+    def buscar_valor_relevancia(self, id):
+        connection = self.receiver.connect()
+        cursor = connection.cursor()
+        cursor.execute("SELECT descricao FROM relevancia WHERE id = ?", (id,))
+        resultado = cursor.fetchone()
+        connection.close()
+
+        # Verifique se o resultado foi encontrado
+        if resultado:
+            return resultado[0]
+        else:
+            return None
+
+    def buscar_valor_status(self, id):
+        connection = self.receiver.connect()
+        cursor = connection.cursor()
+        cursor.execute("SELECT descricao FROM status WHERE id = ?", (id,))
+        resultado = cursor.fetchone()
+        connection.close()
+
+        # Verifique se o resultado foi encontrado
+        if resultado:
+            return resultado[0]
+        else:
+            return None
