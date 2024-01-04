@@ -1,4 +1,6 @@
 import sqlite3
+from src.data_base.Connect_DB import Connect_DB
+db = Connect_DB('cadastro_clientes.db')
 
 def tb_clientes():
     # Conectar ao banco de dados (se não existir, será criado)
@@ -112,12 +114,126 @@ def create_status_table():
     finally:
         connection.close()
 
+def criar_tabela_viagens():
+    path = "cadastro_clientes.db"
+
+    try:
+        connection = sqlite3.connect(path)
+        cursor = connection.cursor()
+
+        # Criar a tabela "viagens"
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS viagens (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                data DATE NOT NULL,
+                km INTEGER NOT NULL,
+                valor REAL NOT NULL,
+                valor_comb REAL NOT NULL
+            );
+        ''')
+        connection.commit()
+        print("Tabela 'viagens' criada com sucesso.")
+
+    except sqlite3.Error as e:
+        print(f"Erro: {e}")
+    finally:
+        connection.close()
+
+def criar_tabela_carros():
+    # Substitua pelo caminho e nome do seu banco de dados
+    path = "cadastro_clientes.db"
+
+    try:
+        with sqlite3.connect(path) as connection:
+            cursor = connection.cursor()
+
+            # Criar a tabela "carros"
+            cursor.execute('''
+                CREATE TABLE IF NOT EXISTS carros (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    marca TEXT NOT NULL,
+                    modelo TEXT NOT NULL,
+                    placa TEXT NOT NULL,
+                    ano INTEGER NOT NULL,
+                    km_inicial INTEGER NOT NULL,
+                    km_atual INTEGER NOT NULL,
+                    autonomia INTEGER NOT NULL
+                );
+            ''')
+            connection.commit()
+            print("Tabela 'carros' criada  com sucesso.")
+    except sqlite3.Error as e:
+        print(f"Erro: {e}")
+
+def criar_tabela_tipo_ordem():
+    # Substitua pelo caminho e nome do seu banco de dados
+    path = "cadastro_clientes.db"
+
+    try:
+        with sqlite3.connect(path) as connection:
+            cursor = connection.cursor()
+
+            # Criar a tabela "tipo_ordem"
+            cursor.execute('''
+                CREATE TABLE IF NOT EXISTS tipo_ordem (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    descricao TEXT NOT NULL,
+                    valor TEXT NOT NULL
+                );
+            ''')
+
+            # Inserir os valores PROSPECCAO, ATENDIMENTO, ORCAMENTO
+            cursor.executemany('''
+                INSERT INTO tipo_ordem (descricao, valor) VALUES (?, ?);
+            ''', [('PROSPECCAO', 'PROSPECCAO'), ('ATENDIMENTO', 'ATENDIMENTO'), ('ORCAMENTO', 'ORCAMENTO')])
+
+            connection.commit()
+            print("Tabela 'tipo_ordem' criada com sucesso.")
+    except sqlite3.Error as e:
+        print(f"Erro: {e}")
+
+def criar_tabela_os():
+    # Substitua pelo caminho e nome do seu banco de dados
+    path = "cadastro_clientes.db"
+
+    try:
+        with sqlite3.connect(path) as connection:
+            cursor = connection.cursor()
+
+            # Criar a tabela "os"
+            cursor.execute('''
+                CREATE TABLE IF NOT EXISTS os (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    tipo TEXT NOT NULL,
+                    cliente_id INTEGER,
+                    km_inicial INTEGER,
+                    km_final INTEGER,
+                    financeiro REAL,
+                    hora_inicial TEXT,
+                    hora_final TEXT,
+                    status_id INTEGER,
+                    data TEXT,
+                    FOREIGN KEY (cliente_id) REFERENCES Clientes(id),
+                    FOREIGN KEY (status_id) REFERENCES status(id)
+                );
+            ''')
+
+            connection.commit()
+            print("Tabela 'os' criada com sucesso.")
+    except sqlite3.Error as e:
+        print(f"Erro: {e}")
+
+
 def gerdor_de_tableas():
 
     tb_clientes()
     criar_tabela_entradas_saidas()
     create_relevancia_table()
     create_status_table()
+    criar_tabela_viagens()
+    criar_tabela_carros()
+    criar_tabela_os()
 
 
-gerdor_de_tableas()
+
+

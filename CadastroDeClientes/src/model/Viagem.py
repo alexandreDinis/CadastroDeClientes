@@ -1,7 +1,7 @@
 from datetime import datetime
 
-class viagem:
 
+class Viagem:
     def __init__(self, km_inicial, km_final, preco_combustivel):
         self._km_inicial = km_inicial
         self._km_final = km_final
@@ -26,4 +26,6 @@ class viagem:
     def set_preco_combustivel(self, novo_preco_combustivel):
         self._preco_combustivel = novo_preco_combustivel
 
-
+    def caululo_viagem(self, inicial, final, autonomia, valor_comb):
+        result = float((final - inicial) / autonomia * valor_comb)
+        return round(result, 2)

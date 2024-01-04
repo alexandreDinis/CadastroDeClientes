@@ -1,5 +1,5 @@
 class Financeiro:
-    def __init__(self, entrada, saida, descricao):
+    def __init__(self, entrada, saida, descricao, ):
         self._entrada = entrada
         self._saida = saida
         self._descricao = descricao

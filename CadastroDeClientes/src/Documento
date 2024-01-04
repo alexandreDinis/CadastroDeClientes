@@ -1,29 +1,36 @@
-****** Documento Cadastri de Clientes *******
+*** os ***
 
-Banco de dados:
+tabelas:
 
-cadastro_clientes.db
+tabela = 'tipo_ordem'  colunas = descricao, valor = PROSPECCAO, ATENDIMENTO, ORCAMENTO
 
-financeiro.db
+tabela = 'os' colunas = tipo, cliente, km_inicial, km_final, financeiro, hora_inicial, hora_final, status, data
+
+a coluna cliente sera associada a um cliente da tabela cliente, a coluna status sera asssociada a tabela status
+
+menu O.S
+
+abrir OS (  tipo se ela é prospecçao ou atendiemnto, cliente=None, km_inicial, km_final, financeiro, hora_inicial, hora_final, status, data)
+obs: a os nao precisa receber um km ini e final, ela pode receber o km que teve no dia atravez de uma funçao
+no propio sistema
 
 
-***Operation_Crud_Financeiro.py***
+logistica
 
-       entrada e saida
+veiculo
+    cadastrar veiculo
+    manutençao ( cadastra as manutençoes, ele tbm retorna o tempo da troca de oleo baseado na km)
 
-A funçao deve ter a possibilidade de:
+abastecimento
+    gerar abastecimento(um veiculo, valor de abastecimento, valor do combustivel, km rodado, data)
 
-cadastrar as entradas e saidas financeira
+relatorio
+    veiculos cadastrados
+    prazo medio para manutençao, e media baseado nos km rodados, valor geral de manutençao por mes, ano e geral
+    abastecimento(retorna por mes, ano geral os km rodados, valor abastecido as datas)
 
-as entrada são associadas a  um Cliente 
 
-relatorios:
 
-por cliente dentro de um determinado mes
-
-total de compra de todos os clientes dentro do mes
-
-total comprado por clientes anual apresentando o total geral somando todos as entradas
 
 
 

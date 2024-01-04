@@ -1,14 +1,18 @@
 from datetime import datetime
 from Clientes import Clientes
 
+
 class OS:
-    def __init__(self, clientes, tipo, km_inicial, km_final, financeiro):
+    def __init__(self, tipo, cliente, km_inicial, km_final, financeiro, hora_inicial, hora_final, status, data):
         self._tipo = tipo
         self._km_inicial = km_inicial
         self._km_final = km_final
-        self._Financeiro = financeiro
-        self._data = datetime.now().date()
-        self._Clientes = clientes
+        self._financeiro = financeiro
+        self._data = data
+        self._clientes = cliente
+        self._hora_inicial = hora_inicial
+        self._hora_final = hora_final
+        self._status = status
 
     def get_tipo(self):
         return self._tipo

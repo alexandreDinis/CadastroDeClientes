@@ -39,7 +39,7 @@ def start():
                 else:
                     print('Opção Invalida')
         elif op == 3:
-            cl.buscador_relevancia()
+            # Logistica
             pass
         elif op == 0:
             break

@@ -37,6 +37,7 @@ def menu_geral():
 [1] Clientes 
 [2] Financeiro 
 [3] Logistica  
+[4] O.S
 [0] Finalizar   
 '''))
     print('=-' * 30)
@@ -217,9 +218,15 @@ def update():
 
 def buscador_relevancia():
     id = str(input('Relevancia = [ 1 - FORTE | 2 -  MEDIO | 3 - FRACO ')).upper().strip()
-    return data_base.buscar_valor_relevancia(id)
+    if id in '1,2,3':
+        return data_base.buscar_valor_relevancia(id)
+    else:
+        return None
 
 
 def buscador_staus():
     id = str(input('Status = [ 1 = ATIVO | 2 = INATIVO] | 3 = PROSPEC')).upper().strip()
-    return data_base.buscar_valor_relevancia(id)
+    if id in '1,2,3':
+        return data_base.buscar_valor_relevancia(id)
+    else:
+        return None
