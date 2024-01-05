@@ -29,6 +29,33 @@ relatorio
     prazo medio para manutençao, e media baseado nos km rodados, valor geral de manutençao por mes, ano e geral
     abastecimento(retorna por mes, ano geral os km rodados, valor abastecido as datas)
 
+financeiro_pessoal
+
+**fixo**
+
+categoria
+
+aluguel
+telefone
+tarifas bancaria
+impostos
+financiamento
+Mercado
+combustivel
+Cigarros
+Streaming
+Garagem
+seg_vida
+Internet
+Barbearia
+tv
+Agua
+luz
+pets
+
+falta criar o relatorio de carros dentro do model carro
+
+
 
 
 

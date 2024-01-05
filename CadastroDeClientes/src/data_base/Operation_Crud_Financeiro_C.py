@@ -2,7 +2,8 @@ import sqlite3
 from termcolor import colored
 from src.data_base.Connect_DB import Connect_DB
 
-class Operations_Crud_Financeiro:
+
+class Operations_Crud_Financeiro_C:
 
     def __init__(self):
         path = "data_base/cadastro_clientes.db"
@@ -160,3 +161,25 @@ class Operations_Crud_Financeiro:
             return 0
         finally:
             self.receiver.close_connection()
+
+    def adicionar_categoria(self, nome_categoria):
+        # Conectar ao banco de dados (se não existir, será criado)
+        conn = sqlite3.connect('cadastro_clientes.db')
+
+        # Criar um cursor para executar comandos SQL
+        cursor = conn.cursor()
+
+        # Inserir uma nova categoria
+        insert_categoria_sql = f'''
+        INSERT INTO Categoria (nome_categoria)
+        VALUES ('{nome_categoria}');
+        '''
+
+        # Executar o comando SQL para inserir a nova categoria
+        cursor.execute(insert_categoria_sql)
+
+        # Commit para salvar as alterações
+        conn.commit()
+
+        # Fechar a conexão
+        conn.close()

@@ -1,5 +1,6 @@
 from src.data_base.Operation_Crud_Os import Operations_Crud_OS
 
+
 def menu_geral_os():
     menu = int(input(""""
 *** O.S ***
@@ -7,4 +8,5 @@ def menu_geral_os():
 [2]Relatorios
 [0]Voltar
     """))
+    return menu
 

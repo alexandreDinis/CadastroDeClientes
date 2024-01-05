@@ -224,6 +224,157 @@ def criar_tabela_os():
         print(f"Erro: {e}")
 
 
+def tb_categoria():
+    # Conectar ao banco de dados (se não existir, será criado)
+    conn = sqlite3.connect('cadastro_clientes.db')
+
+    # Criar um cursor para executar comandos SQL
+    cursor = conn.cursor()
+
+    # Definir o comando SQL para criar a tabela Categoria
+    create_table_sql = '''
+    CREATE TABLE IF NOT EXISTS Categoria (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        nome_categoria TEXT NOT NULL
+    );
+    '''
+
+    # Executar o comando SQL para criar a tabela
+    cursor.execute(create_table_sql)
+
+    # Commit para salvar as alterações
+    conn.commit()
+
+    # Inserir valores na tabela Categoria
+    insert_values_sql = '''
+    INSERT INTO Categoria (nome_categoria)
+    VALUES
+        ('aluguel'),
+        ('telefone'),
+        ('tarifas bancaria'),
+        ('impostos'),
+        ('financiamento'),
+        ('Mercado'),
+        ('combustivel'),
+        ('Cigarros'),
+        ('Streaming'),
+        ('Garagem'),
+        ('seg_vida'),
+        ('Internet'),
+        ('Barbearia'),
+        ('tv'),
+        ('Agua'),
+        ('luz'),
+        ('pets');
+    '''
+
+    # Executar o comando SQL para inserir valores
+    cursor.execute(insert_values_sql)
+
+    # Commit para salvar as alterações
+    conn.commit()
+
+    # Fechar a conexão
+    conn.close()
+
+
+def tabelas_financeiro_pessoal():
+    # Conectar ao banco de dados (se não existir, será criado)
+    conn = sqlite3.connect('cadastro_clientes.db')
+
+    # Criar um cursor para executar comandos SQL
+    cursor = conn.cursor()
+
+    # Definir o comando SQL para criar a tabela Categoria
+    create_categoria_table_sql = '''
+    CREATE TABLE IF NOT EXISTS Categoria (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        nome_categoria TEXT NOT NULL
+    );
+    '''
+
+    # Executar o comando SQL para criar a tabela Categoria
+    cursor.execute(create_categoria_table_sql)
+
+    # Definir o comando SQL para criar a tabela DespesasFixas
+    create_despesas_fixas_table_sql = '''
+    CREATE TABLE IF NOT EXISTS DespesasFixas (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        data TEXT NOT NULL,
+        valor REAL NOT NULL,
+        categoria_id INTEGER,
+        descricao TEXT,
+        FOREIGN KEY (categoria_id) REFERENCES Categoria (id)
+    );
+    '''
+
+    # Executar o comando SQL para criar a tabela DespesasFixas
+    cursor.execute(create_despesas_fixas_table_sql)
+
+    # Definir o comando SQL para criar a tabela DespesasVariaveis
+    create_despesas_variaveis_table_sql = '''
+    CREATE TABLE IF NOT EXISTS DespesasVariaveis (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        data TEXT NOT NULL,
+        valor REAL NOT NULL,
+        categoria_id INTEGER,
+        descricao TEXT,
+        FOREIGN KEY (categoria_id) REFERENCES Categoria (id)
+    );
+    '''
+
+    # Executar o comando SQL para criar a tabela DespesasVariaveis
+    cursor.execute(create_despesas_variaveis_table_sql)
+
+    # Definir o comando SQL para criar a tabela DespesasInesperadas
+    create_despesas_inesperadas_table_sql = '''
+    CREATE TABLE IF NOT EXISTS DespesasInesperadas (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        data TEXT NOT NULL,
+        valor REAL NOT NULL,
+        categoria_id INTEGER,
+        descricao TEXT,
+        FOREIGN KEY (categoria_id) REFERENCES Categoria (id)
+    );
+    '''
+
+    # Executar o comando SQL para criar a tabela DespesasInesperadas
+    cursor.execute(create_despesas_inesperadas_table_sql)
+
+    # Commit para salvar as alterações
+    conn.commit()
+
+    # Fechar a conexão
+    conn.close()
+
+
+def tb_abastecimento():
+    # Conectar ao banco de dados (se não existir, será criado)
+    conn = sqlite3.connect('cadastro_clientes.db')
+
+    # Criar um cursor para executar comandos SQL
+    cursor = conn.cursor()
+
+    # Definir o comando SQL para criar a tabela Clientes
+    create_table_sql = '''
+                CREATE TABLE IF NOT EXISTS Abastecimento (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    km INTEGER NOT NULL,
+                    valor_comb REAL NOT NULL,
+                    data TEXT NOT NULL
+                );
+                '''
+
+    # Executar o comando SQL para criar a tabela
+    cursor.execute(create_table_sql)
+
+    # Commit para salvar as alterações
+    conn.commit()
+
+    # Fechar a conexão
+    conn.close()
+
+
 def gerdor_de_tableas():
 
     tb_clientes()
@@ -233,7 +384,10 @@ def gerdor_de_tableas():
     criar_tabela_viagens()
     criar_tabela_carros()
     criar_tabela_os()
+    tb_categoria()
+    tabelas_financeiro_pessoal()
 
+tb_abastecimento()
 
 
 

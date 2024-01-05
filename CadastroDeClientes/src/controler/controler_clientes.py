@@ -5,29 +5,7 @@ from src.data_base.Operations_Crud_Clientes import Operations_Crud_Clientes
 
 clientes = Clientes
 data_base = Operations_Crud_Clientes()
-def export_report_to_excel(results, filename):
-    """
-    Exporta um relatório para um documento do Excel.
-    """
-    # Cria um novo documento do Excel.
-    workbook = openpyxl.Workbook()
 
-    # Cria uma nova planilha.
-    worksheet = workbook.active
-
-    # Escreve o cabeçalho do relatório.
-    worksheet.append \
-        (['ID', 'Nome', 'Contato', 'Rua', 'Bairro', 'Cidade', 'Phone', 'Setor', 'Relevância', 'Status', 'Data'])
-
-    # Escreve os resultados da pesquisa.
-    for result in results:
-        worksheet.append \
-            ([result[0], result[1], result[2], result[3], result[4], result[5], result[6], result[7], result[8], result[9], result[10]])
-
-    # Salva o documento.
-    workbook.save(filename)
-
-    return filename
 
 def menu_geral():
 
@@ -69,6 +47,32 @@ def menu_search():
     print('=-' * 30)
 
     return menu
+
+
+def export_report_to_excel(results, filename):
+    """
+    Exporta um relatório para um documento do Excel.
+    """
+    # Cria um novo documento do Excel.
+    workbook = openpyxl.Workbook()
+
+    # Cria uma nova planilha.
+    worksheet = workbook.active
+
+    # Escreve o cabeçalho do relatório.
+    worksheet.append \
+        (['ID', 'Nome', 'Contato', 'Rua', 'Bairro', 'Cidade', 'Phone', 'Setor', 'Relevância', 'Status', 'Data'])
+
+    # Escreve os resultados da pesquisa.
+    for result in results:
+        worksheet.append \
+            ([result[0], result[1], result[2], result[3], result[4], result[5], result[6], result[7], result[8], result[9], result[10]])
+
+    # Salva o documento.
+    workbook.save(filename)
+
+    return filename
+
 
 def cadastrar():
 
@@ -230,3 +234,20 @@ def buscador_staus():
         return data_base.buscar_valor_relevancia(id)
     else:
         return None
+
+
+def start_cliente():
+    while True:
+        op = menu_cadastrar()
+        if op == 1:
+            cadastrar()
+        elif op == 2:
+            search()
+        elif op == 3:
+            update()
+        elif op == 4:
+            deletar()
+        elif op == 0:
+            break
+        else:
+            print('Opção Invalida')

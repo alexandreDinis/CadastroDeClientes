@@ -1,8 +1,20 @@
-from src.data_base.Operation_Crud_Financeiro import Operations_Crud_Financeiro
+from src.data_base.Operation_Crud_Financeiro_C import Operations_Crud_Financeiro_C
 from src.data_base.Operations_Crud_Clientes import Operations_Crud_Clientes
 from datetime import datetime
 from colorama import Fore, Style
 import calendar
+
+
+
+
+def menu_op_financeiro():
+    menu = int(input("""
+Financeiro
+[1] Empresa
+[2] Pessoal
+[0] Voltar
+"""))
+    return menu
 
 
 def menu_financeiro_geral():
@@ -32,7 +44,7 @@ def menu_relatorios_financiro():
 [0] voltar
 '''))
     while True:
-        fn = Operations_Crud_Financeiro()
+        fn = Operations_Crud_Financeiro_C()
 
         if menu == 1:
             ano = str(input('Digite o Ano '))
@@ -57,7 +69,7 @@ def menu_relatorios_financiro():
 
 def enter_insert():
     cl = Operations_Crud_Clientes()
-    fn = Operations_Crud_Financeiro()
+    fn = Operations_Crud_Financeiro_C()
     opc = '1'
     column = 'status'
     status = 'ATIVO'
@@ -69,7 +81,7 @@ def enter_insert():
 
 
 def saida_insert():
-    fn = Operations_Crud_Financeiro()
+    fn = Operations_Crud_Financeiro_C()
     valor = float(input('Valor da entrada = R$ '))
     data = str(datetime.now().date())
     fn.insert_db_saida(valor, data)
@@ -77,7 +89,7 @@ def saida_insert():
 
 def comparador():
     cl = Operations_Crud_Clientes()
-    fn = Operations_Crud_Financeiro()
+    fn = Operations_Crud_Financeiro_C()
     opc = '1'
     column = 'status'
     status = 'ATIVO'
@@ -96,10 +108,8 @@ def comparador():
     print(f'diferença R$ {diferença:.2f} % {perc}')
 
 
-import sqlite3
-
 def entrada_saida_geral():
-    fn = Operations_Crud_Financeiro()
+    fn = Operations_Crud_Financeiro_C()
     ano = str(input('Digite o Ano '))
     valores_entrada = []
     valores_saida = []
@@ -141,8 +151,9 @@ def entrada_saida_geral():
     )
     print(f'{"-" * 75}')
 
+
 def comparar_entradas_saidas_anos(ano1, ano2):
-    fn = Operations_Crud_Financeiro()
+    fn = Operations_Crud_Financeiro_C()
     valores_entrada_ano1 = []
     valores_saida_ano1 = []
     valores_entrada_ano2 = []
@@ -193,8 +204,16 @@ def comparar_entradas_saidas_anos(ano1, ano2):
     print(f'{"-"*105}')
 
 
-
-
-
-
-
+def start_financerio_C():
+    while True:
+        op = menu_financeiro_geral()
+        if op == 1:
+            enter_insert()
+        elif op == 2:
+            saida_insert()
+        elif op == 3:
+            menu_relatorios_financiro()
+        elif op == 0:
+            break
+        else:
+            print('Opção Invalida')

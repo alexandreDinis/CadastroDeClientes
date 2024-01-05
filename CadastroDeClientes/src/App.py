@@ -1,8 +1,9 @@
-from src.model import model_clientes
-from src.model import model_financeiro
+from src.controler import controler_viagem, controler_clientes, controler_financeiro_C
 
-fn = model_financeiro
-cl = model_clientes
+fn = controler_financeiro_C
+cl = controler_clientes
+lg = controler_viagem
+
 
 def start():
     while True:
@@ -10,49 +11,25 @@ def start():
         op = cl.menu_geral()
 
         if op == 1:
-            while True:
-                op = cl.menu_cadastrar()
-                if op == 1:
-                    cl.cadastrar()
-                elif op == 2:
-                    cl.search()
-                elif op == 3:
-                    cl.update()
-                elif op == 4:
-                    cl.deletar()
-                elif op == 0:
-                    break
-                else:
-                    print('Opção Invalida')
+            cl.start_cliente()
         elif op == 2:
             while True:
-                op = fn.menu_financeiro_geral()
+                op = fn.menu_op_financeiro()
                 if op == 1:
-                    fn.enter_insert()
+                    fn.start_financerio_C()
                 elif op == 2:
-                    fn.saida_insert()
-                elif op == 3:
-                    fn.menu_relatorios_financiro()
-
+                    pass
                 elif op == 0:
                     break
                 else:
                     print('Opção Invalida')
         elif op == 3:
-            # Logistica
-            pass
+            lg.start_viagem()
         elif op == 0:
             break
         else:
             print('Opiçãp Invalida')
-            #
 
 
 if __name__ == "__main__":
-    #sys.path.append(".")
     start()
-
-
-
-
-
