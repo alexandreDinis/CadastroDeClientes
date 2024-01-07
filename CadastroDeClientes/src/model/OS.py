@@ -1,15 +1,15 @@
 from datetime import datetime
-from Clientes import Clientes
+
 
 
 class OS:
-    def __init__(self, tipo, cliente, km_inicial, km_final, financeiro, hora_inicial, hora_final, status, data):
+    def __init__(self, tipo, cliente_id, km_inicial, km_final, financeiro, hora_inicial, hora_final, status, data):
         self._tipo = tipo
         self._km_inicial = km_inicial
         self._km_final = km_final
         self._financeiro = financeiro
         self._data = data
-        self._clientes = cliente
+        self._clientes = cliente_id
         self._hora_inicial = hora_inicial
         self._hora_final = hora_final
         self._status = status
@@ -43,4 +43,7 @@ class OS:
 
     def set_clientes(self, novos_clientes):
         self._Clientes = novos_clientes
+
+    def get_status(self):
+        return self._status
 

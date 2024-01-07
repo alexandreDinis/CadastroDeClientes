@@ -1,9 +1,9 @@
 from src.data_base.Operation_Crud_Viagem import Operations_Crud_Viagem
-from src.data_base.Operation_Crud_Carro import Operation_Crud_Carro
+from src.controler import controler_carros
 from datetime import datetime
 
 vg = Operations_Crud_Viagem()
-car = Operation_Crud_Carro()
+car = controler_carros
 
 
 def menu_geral():
@@ -11,6 +11,7 @@ def menu_geral():
 Logistica
 [1] Abastecimento
 [2] Viagem
+[3] Carros
 [0] Voltar
 """))
     return menu
@@ -97,6 +98,8 @@ def start_viagem():
                     break
                 else:
                     print('Opição Invalida')
+        elif op == 3:
+            car.start_carro()
         elif op == 0:
             break
         else:

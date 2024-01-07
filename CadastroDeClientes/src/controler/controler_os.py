@@ -1,12 +1,227 @@
-from src.data_base.Operation_Crud_Os import Operations_Crud_OS
+from datetime import datetime
+
+from prettytable import PrettyTable
+
+from src.data_base.Operation_Crud_OS import Operations_Crud_OS
+from src.data_base.Operations_Crud_Clientes import Operations_Crud_Clientes
+
+cl = Operations_Crud_Clientes()
+db = Operations_Crud_OS()
 
 
 def menu_geral_os():
     menu = int(input(""""
 *** O.S ***
-[1]Abrir O.S
-[2]Relatorios
+[1]Abrir 
+[2]Fechar
+[3]Relatorios
 [0]Voltar
     """))
     return menu
+
+
+def abrir_os():
+    while True:
+        db.imprimir_tabela_tipo_ordem()
+        tipo_id = str(input('Tipo de O.S ')).strip().upper()
+        descricao_tipo = db.get_descricao_by_id(tipo_id)
+
+        if descricao_tipo is not None:
+            tipo = descricao_tipo
+            break
+        else:
+            print('Opção Inválida')
+
+    if tipo == 'ATENDIMENTO':
+        cl.search_db('1', 'status', 'ATIVO')
+        cliente = str(input("ID Cliente ")).strip().upper()
+    else:
+        cliente = None
+    km_inicial = None
+    km_final = None
+    financeiro = None
+    status = cl.buscar_valor_status('4')
+    data_inicial = datetime.now()
+    data_final = None
+    db.insert(tipo, cliente, km_inicial, km_final, financeiro, status, data_inicial, data_final)
+
+
+def fechar_os():
+    while True:
+        verifica = db.search_db('1', 'status_id', 'ABERTO')
+        if verifica == -1:
+            print('Nao há O.S Abertas')
+            break
+        id = str(input('Digite o ID da O.S '))
+        km_inicial = int(input("Km Inicial  "))
+        km_final = int(input('Km Final '))
+        financeiro = int(input('Valor R$ '))
+        print('Digite a Hora, Minuto, Dia separado por espaço')
+        dia = int(input('Dia '))
+        hora = int(input('Hora '))
+        minutos = int(input('Minutos '))
+        data_final = data_hora_fechamento(hora, minutos, dia)
+        db.update('\n', '\n', km_inicial, km_final, financeiro, 'FECHADO', '\n',
+                  data_final, id)
+        db.search_db('1', 'id', id)
+        op = str(input('Novo Cadastro [S/N]')).upper().strip()
+        if op == 'N':
+            break
+
+
+def data_hora_fechamento(hora, minuto, dia):
+    # Obtém a data atual
+    hoje = datetime.today()
+
+    # Cria um objeto datetime com a data e hora do fechamento
+    data_hora = datetime(hoje.year, hoje.month, dia, hora, minuto)
+
+    return data_hora
+
+def start():
+    while True:
+        op = menu_geral_os()
+        if op == 1:
+            abrir_os()
+        elif op == 2:
+            fechar_os()
+        elif op == 3:
+            filtrar_os_por_filtros_interativos()
+        elif op == 0:
+            break
+        else:
+            print('Opção Invalida')
+
+
+def relatorios():
+    while True:
+        db.filtrar_os_por_parametros('', '', '', '')
+        op = int(input('Aplicar Filtros [1=Ano|2=Mes|3=Status|4=Clientes|0=Não '))
+        if op == 1:
+            ano = str(input('Ano '))
+            db.filtrar_os_por_parametros(ano, '', '', '')
+            op = int(input('Aplicar Filtros [2=Mes|3=Status|4=Clientes|0=Não '))
+            if op == 2:
+                mes = str(input('Ano '))
+                db.filtrar_os_por_parametros(ano, mes, '', '')
+                op = int(input('Aplicar Filtros [3=Status|4=Clientes|0=Não '))
+                if op == 3:
+                    mes = str(input('Ano '))
+                    db.filtrar_os_por_parametros(ano, mes, '', '')
+                    op = int(input('Aplicar Filtros 4=Clientes|0=Não '))
+        elif op == 0:
+            break
+        else:
+            print('Opção Invalida')
+
+
+def obter_filtros_interativos():
+    filtros = {
+        "ano": None,
+        "mes": None,
+        "status_id": None,
+        "cliente": None
+    }
+
+    while True:
+        print("\nFiltros atuais:")
+        for chave, valor in filtros.items():
+            print(f"{chave.capitalize()}: {valor or 'Nenhum'}")
+
+        print("\nEscolha um número para adicionar/remover filtro:")
+        print("1. Ano")
+        print("2. Mês")
+        print("3. Status")
+        print("4. Cliente")
+        print("5. Limpar filtros")
+        print("0. Sair")
+
+        opcao = input("\nOpção: ")
+
+        if opcao == "1":
+            chave = "ano"
+        elif opcao == "2":
+            chave = "mes"
+        elif opcao == "3":
+            print("\nEscolha o status:")
+            print("1. ABERTO")
+            print("2. FECHADO")
+            opcao_status = input("\nOpção de Status: ")
+
+            if opcao_status == "1":
+                valor = "ABERTO"
+            elif opcao_status == "2":
+                valor = "FECHADO"
+            else:
+                print("Opção inválida. Tente novamente.")
+                continue
+            chave = "status_id"
+        elif opcao == "4":
+            chave = "cliente"
+        elif opcao == "5":
+            filtros = {chave: None for chave in filtros}
+            print("Filtros limpos.")
+
+            # Exibir tabela geral após limpar os filtros
+            resultado = db.filtrar_os_por_parametros()
+            if resultado:
+                table = PrettyTable()
+                table.field_names = ["ID", "Tipo", "Cliente ID", "KM Inicial", "KM Final", "Financeiro", "Status ID",
+                                     "Data Inicial", "Data Final"]
+
+                for row in resultado:
+                    table.add_row(row)
+
+                print("\nTabela Geral:")
+                print(table)
+                print("-" * 160)
+            else:
+                print('Nenhuma OS encontrada.')
+
+            continue
+        elif opcao == "0":
+            break
+        else:
+            print("Opção inválida. Tente novamente.")
+            continue
+
+        filtros[chave] = valor
+
+        # Exibir tabela filtrada após cada filtro adicionado
+        resultado = db.filtrar_os_por_parametros(**filtros)
+        if resultado:
+            table = PrettyTable()
+            table.field_names = ["ID", "Tipo", "Cliente ID", "KM Inicial", "KM Final", "Financeiro", "Status ID",
+                                 "Data Inicial", "Data Final"]
+
+            for row in resultado:
+                table.add_row(row)
+
+            print("\nOS filtradas:")
+            print(table)
+            print("-" * 160)
+        else:
+            print('Nenhuma OS encontrada com os filtros especificados.')
+
+    return filtros
+
+def filtrar_os_por_filtros_interativos():
+    # Mostrar a tabela geral antes de solicitar os filtros
+    db.mostrar_tabela_geral_os()
+
+    resultado = db.filtrar_os_por_parametros(**obter_filtros_interativos())
+
+    if resultado:
+        table = PrettyTable()
+        table.field_names = ["ID", "Tipo", "Cliente ID", "KM Inicial", "KM Final", "Financeiro", "Status ID",
+                             "Data Inicial", "Data Final"]
+
+        for row in resultado:
+            table.add_row(row)
+
+        print("\nOS encontradas:")
+        print(table)
+        print("-" * 160)
+    else:
+        print('Nenhuma OS encontrada com os filtros especificados.')
 

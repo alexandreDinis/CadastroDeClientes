@@ -227,3 +227,4 @@ class Operations_Crud_Clientes:
             return resultado[0]
         else:
             return None
+

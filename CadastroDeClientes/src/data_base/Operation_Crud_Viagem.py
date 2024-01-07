@@ -11,11 +11,11 @@ class Operations_Crud_Viagem:
         path = "data_base/cadastro_clientes.db"
         self.receiver = Connect_DB(path)
 
-    def insert_db_abastecimento(self, data, km, valor, valor_comb):
+    def insert_db_abastecimento(self, data, km, valor_abastecido, valor_comb):
         try:
             connection = self.receiver.connect()
             cursor = connection.cursor()
-            cursor.execute(f'INSERT INTO "abastecimento"  VALUES(NULL, ?, ?, ?, ?)', (data, km, valor, valor_comb))
+            cursor.execute(f'INSERT INTO "Abastecimento"  VALUES(NULL, ?, ?, ?, ?)', (data, km, valor_abastecido, valor_comb))
             connection.commit()
             print('\nInsert successfully\n')
         except sqlite3.Error as e:
@@ -141,3 +141,58 @@ class Operations_Crud_Viagem:
             print('Error in get_days_since_first_record', e)
         finally:
             self.receiver.close_connection()
+
+    def get_abastecimento_km_by_month(self, year, month):
+        try:
+            connection = self.receiver.connect()
+            cursor = connection.cursor()
+
+            # Construir a parte da cláusula WHERE baseada nos parâmetros fornecidos
+            where_clause = f" WHERE strftime('%Y', data) = '{year}' AND strftime('%m', data) = '{month}'"
+
+            # Montar a consulta SQL final para selecionar apenas a coluna 'km'
+            sql_query = f'SELECT km FROM abastecimento{where_clause}'
+
+            cursor.execute(sql_query)
+            result = cursor.fetchall()
+
+            if result:
+                km_values = [row[0] for row in result]
+                print("\nKm values found:")
+                print(km_values)
+                print("-" * 80)
+                return km_values
+            else:
+                print('Result not found')
+                return []
+
+        except sqlite3.Error as e:
+            print('Error in search', e)
+        finally:
+            self.receiver.close_connection()
+
+    def get_media_valor_combustivel_mes(self, year, month):
+        try:
+            connection = self.receiver.connect()
+            cursor = connection.cursor()
+
+            # Consulta SQL para calcular a média da soma total da coluna 'valor_comb' para o ano e mês fornecidos
+            sql_query = f'SELECT AVG(SUM(valor_comb)) FROM abastecimento WHERE strftime("%Y-%m", data) = "{year}-{month}"'
+
+            cursor.execute(sql_query)
+            result = cursor.fetchone()
+
+            if result:
+                media_valor_combustivel = result[0]
+                print(f"\nMédia do valor do combustível para {year}-{month}: {media_valor_combustivel:.2f}")
+                print("-" * 80)
+                return media_valor_combustivel
+            else:
+                print('Result not found')
+                return None
+
+        except sqlite3.Error as e:
+            print('Error in search', e)
+        finally:
+            self.receiver.close_connection()
+

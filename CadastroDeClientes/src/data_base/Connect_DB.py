@@ -19,3 +19,5 @@ class Connect_DB:
             #print('Connection closed successfully')
         else:
             print('No active connect to close')
+
+

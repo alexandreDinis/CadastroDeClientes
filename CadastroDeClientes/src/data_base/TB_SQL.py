@@ -374,6 +374,33 @@ def tb_abastecimento():
     # Fechar a conexão
     conn.close()
 
+def criar_tabela_a_receber():
+    # Conectar ao banco de dados (se não existir, será criado)
+    conn = sqlite3.connect('cadastro_clientes.db')
+
+    # Criar um cursor para executar comandos SQL
+    cursor = conn.cursor()
+
+    # Definir o comando SQL para criar a tabela A_Receber
+    create_table_sql = '''
+    CREATE TABLE IF NOT EXISTS A_Receber (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        os_id INTEGER NOT NULL,
+        valor REAL NOT NULL,
+        status TEXT NOT NULL,
+        FOREIGN KEY (os_id) REFERENCES OS(id)
+    );
+    '''
+
+    # Executar o comando SQL para criar a tabela
+    cursor.execute(create_table_sql)
+
+    # Commit para salvar as alterações
+    conn.commit()
+
+    # Fechar a conexão
+    conn.close()
+
 
 def gerdor_de_tableas():
 
@@ -387,7 +414,7 @@ def gerdor_de_tableas():
     tb_categoria()
     tabelas_financeiro_pessoal()
 
-tb_abastecimento()
+criar_tabela_a_receber()
 
 
 

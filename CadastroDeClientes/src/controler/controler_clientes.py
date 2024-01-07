@@ -99,10 +99,10 @@ def cadastrar():
         data_base.insert_db(nome, contato, rua, bairro, cidade, phone, setor, relevancia, status, data)
         print('=-' * 30)
 
-        op = int(input('Novo Cadastro [1 = Sim | 0 = Nao ]'))
-
-        if op == 0:
+        op = str(input('Novo Cadastro [S/N]')).upper().strip()
+        if op == 'N':
             break
+
 
 def search():
     global opc, column, search
@@ -229,9 +229,9 @@ def buscador_relevancia():
 
 
 def buscador_staus():
-    id = str(input('Status = [ 1 = ATIVO | 2 = INATIVO] | 3 = PROSPEC')).upper().strip()
+    id = str(input('Status = [ 1 = ATIVO | 2 = INATIVO] | 3 = PROSPEC ')).upper().strip()
     if id in '1,2,3':
-        return data_base.buscar_valor_relevancia(id)
+        return data_base.buscar_valor_status(id)
     else:
         return None
 
@@ -251,3 +251,5 @@ def start_cliente():
             break
         else:
             print('Opção Invalida')
+
+

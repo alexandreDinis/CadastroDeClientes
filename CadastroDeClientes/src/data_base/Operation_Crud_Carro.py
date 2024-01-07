@@ -54,7 +54,7 @@ class Operation_Crud_Carro:
             cursor = connection.cursor()
 
             if opc != '-1':
-                cursor.execute(f'SELECT * FROM Clientes WHERE {column} = ?', (search,))
+                cursor.execute(f'SELECT * FROM carros WHERE {column} = ?', (search,))
                 result = cursor.fetchall()
                 if result:
                     table = PrettyTable()
@@ -198,3 +198,19 @@ class Operation_Crud_Carro:
 
         finally:
             connection.close()
+
+    def get_car_id_by_plate(self, plate):
+        try:
+            connection = self.receiver.connect()
+            cursor = connection.cursor()
+            cursor.execute('SELECT id FROM "carros" WHERE placa = ?', (plate,))
+            result = cursor.fetchone()
+            if result:
+                return result[0]  # Return the first column (ID)
+            else:
+                return None  # Return None if the plate is not found
+        except sqlite3.Error as e:
+            print('Error getting car ID by plate:', e)
+            return None
+        finally:
+            self.receiver.close_connection()

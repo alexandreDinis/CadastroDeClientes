@@ -38,6 +38,23 @@ class Operations_Crud_Financeiro_C:
         finally:
             self.receiver.close_connection()
 
+    def insert_a_receber(self, id_os, valor, status,  data):
+        try:
+            if not self.id_cliente_exists(id_os):
+                print(f'Error: id_os {id_os} does not exist in "O.S" table.')
+                return
+
+            connection = self.receiver.connect()
+            cursor = connection.cursor()
+            cursor.execute('INSERT INTO "A_Receber" VALUES(NULL, ?, ?, ?, ?)', (id_os, valor, status, data))
+
+            connection.commit()
+            print('\nInsert successfully\n')
+        except sqlite3.Error as e:
+            print('Insert not successful:', e)
+        finally:
+            self.receiver.close_connection()
+
     def insert_db_saida(self, valor, data):
         try:
             connection = self.receiver.connect()

@@ -6,12 +6,20 @@ carro = Operation_Crud_Carro()
 
 def menu_geral():
     menu = int(input("""
-carros
-
+Carros
 [1] Cadastrar
-[2] Pesquisar
+[2] Relatorios
 [3] Deletar
 [0] Voltar    
+"""))
+    return menu
+
+
+def menu_relatorio():
+    menu = int(input("""
+Relatorios
+[1] Placa
+[2] Lista de carros
 """))
     return menu
 
@@ -21,14 +29,18 @@ def start_carro():
         op = menu_geral()
 
         if op == 1:
-            cadastrar()
+            insert()
         elif op == 2:
-            pass # relatorios de carros
+            search()
         elif op == 3:
             delite()
+        elif op == 0:
+            break
+        else:
+            print('Opção Invalida')
 
 
-def cadastrar():
+def insert():
     marca = str(input('Marca ')).upper().strip()
     modelo = str(input('Modelo ')).upper().strip()
     while True:
@@ -49,19 +61,19 @@ def cadastrar():
     carro.insert_db(marca, modelo, placa, ano, km_inicial, km_atual, autonomia, data)
 
 
-def update_km(id, km_rodado):
-    carro.update_km(id, km_rodado)
-    carro.update_manutencao(id, km_rodado)
-    contador = carro.buscar_contador(id)
-    manutencao = carro.buscar_manutencao(id)
+def update_km(carro_id, km_rodado):
+    carro.update_km(carro_id, km_rodado)
+    carro.update_manutencao(carro_id, km_rodado)
+    contador = carro.buscar_contador(carro_id)
+    manutencao = carro.buscar_manutencao(carro_id)
     tempo_manutencao = manutencao - contador
     if contador >= manutencao - 500:
         print(f'Alerta de manutenção')
         print(f'Você tem  {tempo_manutencao} Km')
         if tempo_manutencao < 0:
-            op = str(input('Voce ja passou do prazo para a manutenção, se voce ja a fez [S/N]')).upper().strip()
+            op = str(input('Voce ja passou do prazo para a manutenção! Voce ja fez ? [S/N]')).upper().strip()
             if op == 'S':
-                carro.zerar_contador_km(id)
+                carro.zerar_contador_km(carro_id)
 
 
 def delite():
@@ -77,4 +89,25 @@ def delite():
                 break
             else:
                 break
+
+def search():
+    op = menu_relatorio()
+    if op == 2:
+        placa = str(input('Digite a Placa ')).upper().strip()
+        carro.search('1', 'placa', placa)
+        op = str(input('Mais detalhes [S/N] ')).upper().strip()
+        if op == 'S':
+            carro_id = carro.get_car_id_by_plate(placa)
+            contador = carro.buscar_contador(carro_id)
+            manutencao = carro.buscar_manutencao(carro_id)
+            tempo_manutencao = manutencao - contador
+            if contador >= manutencao - 500:
+                print(f'Alerta de manutenção')
+                print(f'Você tem  {tempo_manutencao} Km')
+                if tempo_manutencao < 0:
+                    op = str(input('Voce ja passou do prazo para a manutenção! Voce ja fez ? [S/N]')).upper().strip()
+                    if op == 'S':
+                        carro.zerar_contador_km(carro_id)
+    else:
+        carro.search('-1', '', '')
 

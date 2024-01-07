@@ -1,4 +1,5 @@
 import sqlite3
+from calendar import calendar
 from datetime import datetime
 
 from prettytable import PrettyTable
@@ -107,3 +108,25 @@ class Operations_Crud_Financeiro_P:
         finally:
             self.receiver.close_connection()
 
+    def is_last_day_of_month(date):
+        # Verifica se a data fornecida é válida
+        try:
+            datetime_obj = datetime.strptime(date, '%Y-%m-%d')
+        except ValueError:
+            print('Data inválida')
+            return False
+
+        # Obtém o último dia do mês para a data fornecida
+        last_day = calendar.monthrange(datetime_obj.year, datetime_obj.month)[1]
+
+        # Compara o dia da data fornecida com o último dia do mês
+        return datetime_obj.day == last_day
+
+    # Exemplo de uso:
+    data_fornecida = '2024-01-31'
+    resultado = is_last_day_of_month(data_fornecida)
+
+    if resultado:
+        print(f'{data_fornecida} é o último dia do mês.')
+    else:
+        print(f'{data_fornecida} não é o último dia do mês.')
