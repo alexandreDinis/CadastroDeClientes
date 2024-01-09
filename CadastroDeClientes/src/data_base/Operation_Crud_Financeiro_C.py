@@ -1,4 +1,6 @@
 import sqlite3
+
+from prettytable import PrettyTable
 from termcolor import colored
 from src.data_base.Connect_DB import Connect_DB
 
@@ -38,22 +40,7 @@ class Operations_Crud_Financeiro_C:
         finally:
             self.receiver.close_connection()
 
-    def insert_a_receber(self, id_os, valor, status,  data):
-        try:
-            if not self.id_cliente_exists(id_os):
-                print(f'Error: id_os {id_os} does not exist in "O.S" table.')
-                return
 
-            connection = self.receiver.connect()
-            cursor = connection.cursor()
-            cursor.execute('INSERT INTO "A_Receber" VALUES(NULL, ?, ?, ?, ?)', (id_os, valor, status, data))
-
-            connection.commit()
-            print('\nInsert successfully\n')
-        except sqlite3.Error as e:
-            print('Insert not successful:', e)
-        finally:
-            self.receiver.close_connection()
 
     def insert_db_saida(self, valor, data):
         try:
@@ -67,8 +54,6 @@ class Operations_Crud_Financeiro_C:
             print('Insert not successful:', e)
         finally:
             self.receiver.close_connection()
-
-
 
     def relatorio_financeiro(self, ano=None, mes=None, id_cliente=None):
         try:
@@ -200,3 +185,162 @@ class Operations_Crud_Financeiro_C:
 
         # Fechar a conexão
         conn.close()
+
+    def os_id_exists(self, os_id):
+        try:
+            connection = self.receiver.connect()
+            cursor = connection.cursor()
+            cursor.execute('SELECT 1 FROM "os" WHERE id = ?', (os_id,))
+            return cursor.fetchone() is not None
+        except sqlite3.Error as e:
+            print('Error checking if os_id exists:', e)
+            return False
+        finally:
+            self.receiver.close_connection()
+
+    def abrir_a_receber(self, os_id, valor, status, data):
+        try:
+            connection = self.receiver.connect()
+            cursor = connection.cursor()
+
+            # Verifica se o os_id existe antes de inserir na tabela A_Receber
+            if not self.os_id_exists(os_id):
+                print("os_id não encontrado.")
+                return False
+
+            # Insere os dados na tabela A_Receber
+            cursor.execute('INSERT INTO "A_Receber" (os_id, valor, status, data) VALUES (?, ?, ?, ?)',
+                           (os_id, valor, status, data))
+            connection.commit()
+
+            print("Dados inseridos com sucesso na tabela A_Receber.")
+            return True
+
+        except sqlite3.Error as e:
+            print('Error inserting data into A_Receber:', e)
+            return False
+
+        finally:
+            self.receiver.close_connection()
+
+    def a_receber_id_exists(self, os_id):
+        try:
+            connection = self.receiver.connect()
+            cursor = connection.cursor()
+            cursor.execute('SELECT 1 FROM "A_Receber" WHERE id = ?', (os_id,))
+            return cursor.fetchone() is not None
+        except sqlite3.Error as e:
+            print('Error checking if os_id exists:', e)
+            return False
+        finally:
+            self.receiver.close_connection()
+
+    def search_a_receber(self, opc, column, search):
+        try:
+            connection = self.receiver.connect()
+            cursor = connection.cursor()
+
+            if opc != '-1':
+                cursor.execute(f'SELECT * FROM "A_Receber" WHERE {column} = ?', (search,))
+                result = cursor.fetchall()
+                if result:
+                    table = PrettyTable()
+                    table.field_names = ["ID", "os_id", "Valor", "Status", "Data"]
+
+                    for row in result:
+                        table.add_row(row)
+
+                    print("\nA_Receber found:")
+                    print(table)
+                    print("-" * 160)
+                else:
+                    print('A_Receber not found')
+                    return -1
+
+            if opc == '-1':
+                cursor.execute('SELECT * FROM "A_Receber"')
+                result = cursor.fetchall()
+                if result:
+                    table = PrettyTable()
+                    table.field_names = ["ID", "os_id", "Valor", "Status", "Data"]
+
+                    for row in result:
+                        table.add_row(row)
+
+                    print("\nA_Receber found:")
+                    print(table)
+                    print("-" * 160)
+                    return result
+                else:
+                    print('A_Receber not found')
+
+        except sqlite3.Error as e:
+            print('Error in search', e)
+
+        finally:
+            self.receiver.close_connection()
+
+    def update_a_receber(self, os_id, valor, status, data, id):
+        try:
+            connection = self.receiver.connect()
+            cursor = connection.cursor()
+            set_values = ""
+            values = []
+
+            validation = self.search_a_receber('-1', 'id', id)
+
+            if validation != -1:
+
+                if os_id is not None and os_id.strip() != "":
+                    set_values += "os_id=?, "
+                    values.append(os_id)
+                else:
+                    cursor.execute(f'SELECT os_id FROM "A_Receber" WHERE id = ?', (id,))
+                    set_values += "os_id=?, "
+                    os_id = cursor.fetchone()[0]
+                    values.append(os_id)
+
+                if valor is not None:
+                    set_values += "valor=?, "
+                    values.append(valor)
+                else:
+                    cursor.execute(f'SELECT valor FROM "A_Receber" WHERE id = ?', (id,))
+                    set_values += "valor=?, "
+                    valor = cursor.fetchone()[0]
+                    values.append(valor)
+
+                if status is not None and status.strip() != "":
+                    set_values += "status=?, "
+                    values.append(status)
+                else:
+                    cursor.execute(f'SELECT status FROM "A_Receber" WHERE id = ?', (id,))
+                    set_values += "status=?, "
+                    status = cursor.fetchone()[0]
+                    values.append(status)
+
+                if data is not None and data.strip() != "":
+                    set_values += "data=?, "
+                    values.append(data)
+                else:
+                    cursor.execute(f'SELECT data FROM "A_Receber" WHERE id = ?', (id,))
+                    set_values += "data=?, "
+                    data = cursor.fetchone()[0]
+                    values.append(data)
+
+                if set_values:
+                    set_values = set_values.rstrip(', ')
+
+                query = f'UPDATE "A_Receber" SET {set_values} WHERE id = ?'
+                values.append(id)
+                cursor.execute(query, tuple(values))
+
+                connection.commit()
+
+                print('Database update successfully\n')
+                print()
+                self.search_a_receber('-1', 'id', id)
+
+        except sqlite3.Error as e:
+            print('Error when update', e)
+        finally:
+            self.receiver.close_connection()

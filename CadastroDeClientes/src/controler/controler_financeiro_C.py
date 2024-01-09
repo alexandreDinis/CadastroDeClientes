@@ -1,10 +1,13 @@
 from src.data_base.Operation_Crud_Financeiro_C import Operations_Crud_Financeiro_C
 from src.data_base.Operations_Crud_Clientes import Operations_Crud_Clientes
+from src.data_base.Operation_Crud_OS import Operations_Crud_OS
 from datetime import datetime
 from colorama import Fore, Style
 import calendar
 
-
+fn = Operations_Crud_Financeiro_C()
+cl = Operations_Crud_Clientes()
+os = Operations_Crud_OS()
 
 
 def menu_op_financeiro():
@@ -26,10 +29,25 @@ def menu_financeiro_geral():
 [1] Entrada   
 [2] Saidas 
 [3] Relatorios
+[4] A Receber
 [0] Voltar   
 '''))
     print('=-' * 30)
     return menu
+
+
+def a_receber():
+    while True:
+        fn.search_a_receber('1', 'status', 'ABERTO')
+        op = str(input('Fechar A Receber [S/N] ')).upper().strip()
+        if op == 'S':
+            id = int(input('ID '))
+            fecha_a_receber(id)
+            break
+        elif op == 'N':
+            break
+        else:
+            print('Opção Invalida')
 
 
 def menu_relatorios_financiro():
@@ -44,7 +62,6 @@ def menu_relatorios_financiro():
 [0] voltar
 '''))
     while True:
-        fn = Operations_Crud_Financeiro_C()
 
         if menu == 1:
             ano = str(input('Digite o Ano '))
@@ -68,8 +85,6 @@ def menu_relatorios_financiro():
 
 
 def enter_insert():
-    cl = Operations_Crud_Clientes()
-    fn = Operations_Crud_Financeiro_C()
     opc = '1'
     column = 'status'
     status = 'ATIVO'
@@ -81,15 +96,12 @@ def enter_insert():
 
 
 def saida_insert():
-    fn = Operations_Crud_Financeiro_C()
     valor = float(input('Valor da entrada = R$ '))
     data = str(datetime.now().date())
     fn.insert_db_saida(valor, data)
 
 
 def comparador():
-    cl = Operations_Crud_Clientes()
-    fn = Operations_Crud_Financeiro_C()
     opc = '1'
     column = 'status'
     status = 'ATIVO'
@@ -101,15 +113,14 @@ def comparador():
     ano_b = str(input('Digite o Ano _B '))
     mes_b = str(input('Digite o Mes _B '))
     valor_b = fn.relatorio_financeiro(ano_b, mes_b, cliente)
-    diferença = float(valor_a - valor_b)
+    diferenca = float(valor_a - valor_b)
     perc = int(valor_a - valor_b) / valor_a * 100
     print(f' Data {mes_a}/{ano_a} Valor R$ {valor_a:.2f}')
     print(f' Data {mes_b}/{ano_b} Valor R$ {valor_b:.2f}')
-    print(f'diferença R$ {diferença:.2f} % {perc}')
+    print(f'diferenca R$ {diferenca:.2f} % {perc}')
 
 
 def entrada_saida_geral():
-    fn = Operations_Crud_Financeiro_C()
     ano = str(input('Digite o Ano '))
     valores_entrada = []
     valores_saida = []
@@ -153,7 +164,6 @@ def entrada_saida_geral():
 
 
 def comparar_entradas_saidas_anos(ano1, ano2):
-    fn = Operations_Crud_Financeiro_C()
     valores_entrada_ano1 = []
     valores_saida_ano1 = []
     valores_entrada_ano2 = []
@@ -174,9 +184,10 @@ def comparar_entradas_saidas_anos(ano1, ano2):
     # Mapeamento de números de meses para nomes por extenso abreviados
     meses_abreviados = [calendar.month_abbr[i] for i in range(1, 13)]
 
-    print(f'\n{"-"*105}')
-    print(f'{"Ano":^10} | {"Mês":^10} | {"Entrada 1":^15} | {"Saída 1":^15} | {"Entrada 2":^15} | {"Saída 2":^15} | {"Diferença":^15} | {"Porcentagem":^15} |')
-    print(f'{"-"*105}')
+    print(f'\n{"-" * 105}')
+    print(
+        f'{"Ano":^10} | {"Mês":^10} | {"Entrada 1":^15} | {"Saída 1":^15} | {"Entrada 2":^15} | {"Saída 2":^15} | {"Diferença":^15} | {"Porcentagem":^15} |')
+    print(f'{"-" * 105}')
 
     for i in range(len(valores_entrada_ano1)):
         mes = meses_abreviados[i]
@@ -194,14 +205,34 @@ def comparar_entradas_saidas_anos(ano1, ano2):
             f'{cor_diferenca_total}{diferenca_total:^15.2f}{Style.RESET_ALL} | {porcentagem:^15.2f}% |'
         )
 
-    print(f'{"-"*105}')
+    print(f'{"-" * 105}')
     print(
         f'{ano1:^10} |  Total     | {total_entrada_ano1:^15.2f} | {total_saida_ano1:^15.2f} | '
         f'{total_entrada_ano2:^15.2f} | {total_saida_ano2:^15.2f} | '
         f'{Fore.BLUE if diferenca_total > 0 else Fore.RED}{diferenca_total:^15.2f}{Style.RESET_ALL} | '
         f'{((total_entrada_ano1 - total_saida_ano1) - (total_entrada_ano2 - total_saida_ano2)) / (total_entrada_ano1 - total_saida_ano1) * 100:^15.2f}% |'
     )
-    print(f'{"-"*105}')
+    print(f'{"-" * 105}')
+
+
+def fecha_a_receber(a_receber_id, ):
+    verifica = fn.a_receber_id_exists(a_receber_id)
+    if verifica:
+        op = str(input('Aleterar valor [S/N] ')).upper().strip()
+        if op == 'S':
+            valor = int(input('R$ '))
+            fn.update_a_receber(a_receber_id, valor, 'FECHADO', '\n', a_receber_id)
+            os.update('\n', '\n', '\n', valor, '\n', '\n',
+                      '\n', '\n', a_receber_id, )
+            cliente = os.search_db('1', 'cliente_id', a_receber_id)
+            data = datetime.now().date()
+            fn.insert_db_entrada(cliente, valor, data)
+        else:
+            fn.update_a_receber(a_receber_id, '\n', 'FECHADO', '\n', a_receber_id)
+            cliente = os.search_db('1', 'cliente_id', a_receber_id)
+            data = datetime.now().date()
+            valor = os.search_db('1', 'valor', a_receber_id)
+            fn.insert_db_entrada(cliente, valor, data)
 
 
 def start_financerio_C():

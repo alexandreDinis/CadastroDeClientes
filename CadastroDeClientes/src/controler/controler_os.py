@@ -1,12 +1,30 @@
 from datetime import datetime
 
 from prettytable import PrettyTable
-
+from src.data_base.Operation_Crud_Financeiro_C import Operations_Crud_Financeiro_C
 from src.data_base.Operation_Crud_OS import Operations_Crud_OS
 from src.data_base.Operations_Crud_Clientes import Operations_Crud_Clientes
+import controler_estatisticas
 
+est = controler_estatisticas
+fc = Operations_Crud_Financeiro_C()
 cl = Operations_Crud_Clientes()
 db = Operations_Crud_OS()
+
+
+def start():
+    while True:
+        op = menu_geral_os()
+        if op == 1:
+            abrir_os()
+        elif op == 2:
+            fechar_os()
+        elif op == 3:
+            filtrar_os_por_filtros_interativos()
+        elif op == 0:
+            break
+        else:
+            print('Opção Invalida')
 
 
 def menu_geral_os():
@@ -61,13 +79,19 @@ def fechar_os():
         hora = int(input('Hora '))
         minutos = int(input('Minutos '))
         data_final = data_hora_fechamento(hora, minutos, dia)
+        fc.abrir_a_receber(id, financeiro,'ABERTO', data_final)
         db.update('\n', '\n', km_inicial, km_final, financeiro, 'FECHADO', '\n',
                   data_final, id)
         db.search_db('1', 'id', id)
+        id_cliente = cl.search_db('-1', 'cliente_id', id)
+        data_inicial = db.search_db('-1', 'data_inicial', id)
+        hora_inicial = data_inicial.strftime("%H:%M:%S")
+        hora_final = data_final.strftime("%H:%M:%S")
+        est.estatisticas(id, id_cliente, financeiro, km_inicial, km_final, hora_inicial, hora_final, datetime.now())
         op = str(input('Novo Cadastro [S/N]')).upper().strip()
         if op == 'N':
             break
-
+# id_os, id_cliente, valor, km_ini, km_fin, hora_ini, hora_fin, data
 
 def data_hora_fechamento(hora, minuto, dia):
     # Obtém a data atual
@@ -78,41 +102,7 @@ def data_hora_fechamento(hora, minuto, dia):
 
     return data_hora
 
-def start():
-    while True:
-        op = menu_geral_os()
-        if op == 1:
-            abrir_os()
-        elif op == 2:
-            fechar_os()
-        elif op == 3:
-            filtrar_os_por_filtros_interativos()
-        elif op == 0:
-            break
-        else:
-            print('Opção Invalida')
 
-
-def relatorios():
-    while True:
-        db.filtrar_os_por_parametros('', '', '', '')
-        op = int(input('Aplicar Filtros [1=Ano|2=Mes|3=Status|4=Clientes|0=Não '))
-        if op == 1:
-            ano = str(input('Ano '))
-            db.filtrar_os_por_parametros(ano, '', '', '')
-            op = int(input('Aplicar Filtros [2=Mes|3=Status|4=Clientes|0=Não '))
-            if op == 2:
-                mes = str(input('Ano '))
-                db.filtrar_os_por_parametros(ano, mes, '', '')
-                op = int(input('Aplicar Filtros [3=Status|4=Clientes|0=Não '))
-                if op == 3:
-                    mes = str(input('Ano '))
-                    db.filtrar_os_por_parametros(ano, mes, '', '')
-                    op = int(input('Aplicar Filtros 4=Clientes|0=Não '))
-        elif op == 0:
-            break
-        else:
-            print('Opção Invalida')
 
 
 def obter_filtros_interativos():
@@ -204,6 +194,7 @@ def obter_filtros_interativos():
             print('Nenhuma OS encontrada com os filtros especificados.')
 
     return filtros
+
 
 def filtrar_os_por_filtros_interativos():
     # Mostrar a tabela geral antes de solicitar os filtros

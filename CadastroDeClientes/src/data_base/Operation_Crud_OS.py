@@ -423,3 +423,4 @@ class Operations_Crud_OS:
             print('Erro ao mostrar tabela geral de OS', e)
         finally:
             self.receiver.close_connection()
+

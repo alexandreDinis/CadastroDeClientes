@@ -38,10 +38,13 @@ Viagem
 
 
 def insert_abastecimento():
+    car.listar_carros_geral('-1', '', '')
+    carro_id = int(input('Carro ID '))
     data = datetime.now().date()
     km = int(input('Digite o KM '))
     valor = float(input('Valor abatecido '))
     valor_comb = float(input('Valor do combustivel '))
+    car.update_km(carro_id, km)
     vg.insert_db_abastecimento(data, km, valor, valor_comb)
 
 

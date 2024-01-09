@@ -63,7 +63,7 @@ def insert():
 
 def update_km(carro_id, km_rodado):
     carro.update_km(carro_id, km_rodado)
-    carro.update_manutencao(carro_id, km_rodado)
+    carro.update_contador(carro_id, km_rodado)
     contador = carro.buscar_contador(carro_id)
     manutencao = carro.buscar_manutencao(carro_id)
     tempo_manutencao = manutencao - contador
@@ -108,6 +108,14 @@ def search():
                     op = str(input('Voce ja passou do prazo para a manutenção! Voce ja fez ? [S/N]')).upper().strip()
                     if op == 'S':
                         carro.zerar_contador_km(carro_id)
-    else:
+    elif op == 1:
         carro.search('-1', '', '')
+    else:
+        print('Opção Invalida')
+
+
+def listar_carros_geral(opc, column, search):
+    carro.search(opc, column, search)
+
+
 

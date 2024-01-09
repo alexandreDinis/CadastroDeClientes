@@ -63,5 +63,36 @@ tenho que criar uma tabela a_receber que vai ser ligada ao financerio da tabela 
 quando eu fechar a os a tabela a receber vai ser preenchida com os dados da os com o staus aberto, quando o cliente
 quando eu fechar a receber ele é excluido da tabela e a tabela entrada recebe o valor.
 
+completas
+
+cliente
+abastecimento
+os
+viagem
+carros
+
+falta
+
+trabalhar fianceiro
+
+valor da OS vai para tabela a_receber
+
+mudar a pesquisa controler cliente, ela agora vai buscar por os
+
+
+estatisticas:
+
+os_id, valor_id, cliente_id, atendimento, hora_trabalhada, data
+
+relatorio de estatisticas
+
+ranking por atendimento anual / mensal
+ranking por valor anual / mensal
+
+geral / mensal e anual
+
+
+
+
 
 

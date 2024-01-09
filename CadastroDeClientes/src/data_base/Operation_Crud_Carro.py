@@ -181,6 +181,25 @@ class Operation_Crud_Carro:
         finally:
             connection.close()
 
+
+    def update_contador(self, id_carro, km):
+
+        global connection
+        try:
+            connection = self.receiver.connect()
+            cursor = connection.cursor()
+            # Atualizar a coluna manutencao somando o valor de km
+            cursor.execute('UPDATE carros SET contador_km = contador_km + ? WHERE id = ?', (km, id_carro))
+
+            # Confirmar a transação
+            connection.commit()
+
+        except sqlite3.Error as e:
+            print('Erro ao fazer manutencao:', e)
+
+        finally:
+            connection.close()
+
     def zerar_contador_km(self, id_carro):
         global connection
         try:

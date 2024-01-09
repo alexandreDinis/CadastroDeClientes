@@ -401,6 +401,39 @@ def criar_tabela_a_receber():
     # Fechar a conexão
     conn.close()
 
+def tb_estatisticas():
+    # Conectar ao banco de dados (se não existir, será criado)
+    db = Connect_DB('cadastro_clientes.db')
+    conn = db.connect()
+
+    # Criar um cursor para executar comandos SQL
+    cursor = conn.cursor()
+
+    # Definir o comando SQL para criar a tabela Estatisticas
+    create_table_sql = '''
+     CREATE TABLE IF NOT EXISTS Estatisticas (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        os_id INTEGER,
+        valor_id INTEGER,
+        cliente_id INTEGER,
+        atendimento TEXT,
+        hora_trabalhada REAL,
+        hora REAL,
+        km_rodado REAL,
+        data TEXT,
+        FOREIGN KEY (os_id) REFERENCES os(id),
+        FOREIGN KEY (cliente_id) REFERENCES Clientes(id)
+    );
+    '''
+
+    # Executar o comando SQL para criar a tabela
+    cursor.execute(create_table_sql)
+
+    # Commit para salvar as alterações no banco de dados
+    conn.commit()
+
+    # Fechar a conexão com o banco de dados
+    db.close_connection()
 
 def gerdor_de_tableas():
 
@@ -414,7 +447,7 @@ def gerdor_de_tableas():
     tb_categoria()
     tabelas_financeiro_pessoal()
 
-criar_tabela_a_receber()
+tb_estatisticas()
 
 
 
