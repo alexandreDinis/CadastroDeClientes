@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="82447aba-bd96-451b-926a-dd77c8e340a3" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/App.py" beforeDir="false" afterPath="$PROJECT_DIR$/App.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Documento" beforeDir="false" afterPath="$PROJECT_DIR$/Documento" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Financeiro_20240101_094432.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data_base/Connect_DB.py" beforeDir="false" afterPath="$PROJECT_DIR$/data_base/Connect_DB.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data_base/Operation_Crud_Financeiro.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data_base/Operation_Crud_Os.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data_base/Operation_Crud_Viagem.py" beforeDir="false" afterPath="$PROJECT_DIR$/data_base/Operation_Crud_Viagem.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data_base/Operations_Crud_Clientes.py" beforeDir="false" afterPath="$PROJECT_DIR$/data_base/Operations_Crud_Clientes.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data_base/TB_SQL.py" beforeDir="false" afterPath="$PROJECT_DIR$/data_base/TB_SQL.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data_base/cadastro_clientes.db" beforeDir="false" afterPath="$PROJECT_DIR$/data_base/cadastro_clientes.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data_base/cadastro_clientes.db-journal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/OS.py" beforeDir="false" afterPath="$PROJECT_DIR$/model/OS.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/model_clientes.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/model_financeiro.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/model_os.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/model_viagem.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/relatorio.xlsx" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 1
+}]]></component>
+  <component name="ProjectId" id="2aonZDF3OvUxFs0HjkBPIYZ4bsb" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main"
+  }
+}]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-python-sdk-50da183f06c8-d3b881c8e49f-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-233.13135.95" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="82447aba-bd96-451b-926a-dd77c8e340a3" name="Changes" comment="" />
+      <created>1704993856159</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1704993856159</updated>
+    </task>
+    <servers />
+  </component>
+</project>

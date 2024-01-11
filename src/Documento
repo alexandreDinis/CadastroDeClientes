@@ -1,0 +1,100 @@
+*** os ***
+
+tabelas:
+
+tabela = 'tipo_ordem'  colunas = descricao, valor = PROSPECCAO, ATENDIMENTO, ORCAMENTO
+
+tabela = 'os' colunas = tipo, cliente, km_inicial, km_final, financeiro, hora_inicial, hora_final, status, data
+
+a coluna cliente sera associada a um cliente da tabela cliente, a coluna status sera asssociada a tabela status
+
+menu O.S
+
+abrir OS (  tipo se ela é prospecçao ou atendiemnto, cliente=None, km_inicial, km_final, financeiro, hora_inicial, hora_final, status, data)
+obs: a os nao precisa receber um km ini e final, ela pode receber o km que teve no dia atravez de uma funçao
+no propio sistema
+
+
+logistica
+
+veiculo
+    cadastrar veiculo
+    manutençao ( cadastra as manutençoes, ele tbm retorna o tempo da troca de oleo baseado na km)
+
+abastecimento
+    gerar abastecimento(um veiculo, valor de abastecimento, valor do combustivel, km rodado, data)
+
+relatorio
+    veiculos cadastrados
+    prazo medio para manutençao, e media baseado nos km rodados, valor geral de manutençao por mes, ano e geral
+    abastecimento(retorna por mes, ano geral os km rodados, valor abastecido as datas)
+
+financeiro_pessoal
+
+**fixo**
+
+categoria
+
+aluguel
+telefone
+tarifas bancaria
+impostos
+financiamento
+Mercado
+combustivel
+Cigarros
+Streaming
+Garagem
+seg_vida
+Internet
+Barbearia
+tv
+Agua
+luz
+pets
+
+falta criar o relatorio de carros dentro do model carro
+
+
+o relastorio de combustivel dentro das despesas variavel sempre vai pegar abastecimeno - (km_Ini -km_fin)
+
+
+tenho que criar uma tabela a_receber que vai ser ligada ao financerio da tabela os, ela vai ter uma os_id, valor, status
+quando eu fechar a os a tabela a receber vai ser preenchida com os dados da os com o staus aberto, quando o cliente
+quando eu fechar a receber ele é excluido da tabela e a tabela entrada recebe o valor.
+
+completas
+
+cliente
+abastecimento
+os
+viagem
+carros
+
+falta
+
+trabalhar fianceiro
+
+valor da OS vai para tabela a_receber
+
+mudar a pesquisa controler cliente, ela agora vai buscar por os
+
+
+estatisticas:
+
+os_id, valor_id, cliente_id, atendimento, hora_trabalhada, data
+
+relatorio de estatisticas
+
+ranking por atendimento anual / mensal
+ranking por valor anual / mensal
+
+geral / mensal e anual
+
+***** concertar relatorio de carros
+**** tem BO na insersao de despesas da empresa
+criar relatorio financeiro empresa e pessoal
+
+
+
+
